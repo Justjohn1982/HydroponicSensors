@@ -8,7 +8,14 @@ import busio
 i2c = busio.I2C(board.SCL, board.SDA)
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
+cred = credentials.Certificate('./hydroponics-71110-fcb7f2a68085.json')
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
 
 # Water temperature stuff
 os.system('modprobe w1-gpio')
@@ -60,3 +67,16 @@ print('pH: '+str(pHValue))
 tds = AnalogIn(ads, ADS.P1)
 tdsValue=(133.42*tds.voltage*tds.voltage*tds.voltage - 255.86*tds.voltage*tds.voltage + 857.39*tds.voltage)*0.5
 print('TDS (ppm): ' + str(tdsValue))
+
+#Store it on firestore
+doc_ref = db.collection(u'kitchen').document()
+doc_ref.set({
+    u'air_temp': temperature,
+    u'humidity': humidity,
+    u'created': datetime.datetime.now(),
+    u'ph': pHValue,
+    u'tds': tdsValue,
+    u'water_level': 0,
+    u'water_flow': 0,
+    u'water_temp': water_temperature
+})
