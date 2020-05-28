@@ -12,7 +12,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-cred = credentials.Certificate('./hydroponics-71110-fcb7f2a68085.json')
+cred = credentials.Certificate('./firebase-certificate.json')
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
