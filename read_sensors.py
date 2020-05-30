@@ -31,12 +31,12 @@ water_temp_sensor = '/sys/bus/w1/devices/28-01192a88d530/w1_slave'
 
 def read_water_temp_raw():
     GPIO.output(TDS_Relay, GPIO.LOW)
-    sleep(1)
+    sleep(5)
     f = open(water_temp_sensor, 'r')
     lines = f.readlines()
     f.close()
     GPIO.output(TDS_Relay, GPIO.HIGH)
-    sleep(1)
+    sleep(2)
     return lines
 
 def read_water_temp():
