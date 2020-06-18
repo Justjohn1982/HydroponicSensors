@@ -81,6 +81,7 @@ def read_tds():
     for x in range(7):
         tdsValues.append((133.42*tds.voltage*tds.voltage*tds.voltage - 255.86*tds.voltage*tds.voltage + 857.39*tds.voltage)*0.5)
         wait(1)
+    GPIO.output(TDS_Relay, GPIO.HIGH)
     tdsValues.sort()
     return mean(tdsValues[1,-1])
 tdsValue = read_tds()
