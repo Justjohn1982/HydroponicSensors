@@ -20,7 +20,7 @@ import datetime
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from statistics import mean 
+from statistics import mean
 
 cred = credentials.Certificate(config["firebase-certificate"])
 firebase_admin.initialize_app(cred)
@@ -84,7 +84,9 @@ def read_tds():
         sleep(1)
     GPIO.output(TDS_Relay, GPIO.HIGH)
     tdsValues.sort()
-    return mean(tdsValues[1,-1])
+    tdsValues.pop(0)
+    tdsValues.pop(-1)
+    return mean(tdsValues)
 tdsValue = read_tds()
 print('TDS (ppm): ' + str(tdsValue))
 
